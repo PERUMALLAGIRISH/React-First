@@ -1,0 +1,45 @@
+Handling not found routes
+What if a user enters a path that doesn't exist in our app? For example, if we try to navigate to "/tools" we get nothing appearing beneath our header. This makes sense, because React Router didn't find any matching routes, so nothing is rendered. However, if the user does navigate to an invalid path, we want to inform them that the path doesn't exist. The following steps make this happen:
+
+So, let's create a new file called NotFoundPage.tsx with the following component:
+import * as React from "react";
+
+const NotFoundPage: React.SFC = () => {
+  return (
+    <div className="page-container">
+      <h1>Sorry, this page cannot be found</h1>
+    </div>
+  );
+};
+
+export default NotFoundPage;
+ Let's import this into our routes in Routes.tsx:
+import NotFoundPage from "./NotFoundPage";
+Let's then add a Route component to this with the other routes:
+<Router>
+  <div>
+    <Header />
+    <Route exact={true} path="/products" component={ProductsPage} 
+       />
+    <Route path="/products/:id" component={ProductPage} />
+    <Route path="/admin" component={AdminPage} />
+    <Route component={NotFoundPage} />
+  </div>
+</Router>
+  However, this is going to render for every path:
+
+
+
+How can we just render NotFoundPage when it hasn't found another route? The answer is to wrap the Routes in the Switch component in React Router.
+
+Let's first import Switch into Routes.tsx:
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+Let's now wrap the Route components in a Switch component:
+<Switch>
+  <Route exact={true} path="/products" component={ProductsPage} />
+  <Route path="/products/:id" component={ProductPage} />
+  <Route path="/admin" component={AdminPage} />
+  <Route component={NotFoundPage} />
+</Switch>
+The Switch component renders only the first matching Route component. If we look at the running app we see that our problem is resolved. If we enter a path that doesn't exist, we get our nice not found message:
+

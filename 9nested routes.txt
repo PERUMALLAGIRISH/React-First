@@ -1,0 +1,155 @@
+Nested routes
+A nested route is when a URL is more than one level deep and it renders multiple components. We are going to implement some nested routes in this section in our Admin page. Our completed Admin page will look like the following screenshot:
+
+
+
+The URL in the preceding screenshot is 3 levels deep which renders the following:
+
+The top-level menu containing links for Users and Products.
+A menu containing all the users. This is just Fred, Bob, and Jane is our example. 
+Information about the selected user.
+ Let's start by opening AdminPage.tsx and add import statements for the following from react-router-dom:
+import { NavLink, Route, RouteComponentProps } from "react-router-dom";
+We'll use the NavLink component to render the menus
+The Route component will be used to render the nested routes
+The RouteComponentProps type will be used to get the id of a user from the URL
+We are going to replace the p tag with an unordered list containing menu options Users and Products:
+<div className="page-container">
+  <h1>Admin Panel</h1>
+  <ul className="admin-sections>
+    <li key="users">
+      <NavLink to={`/admin/users`} activeClassName="admin-link-
+        active">
+        Users
+      </NavLink>
+    </li>
+    <li key="products">
+      <NavLink to={`/admin/products`} activeClassName="admin-link-
+       active">
+        Products
+      </NavLink>
+    </li>
+  </ul>
+</div>
+We use the NavLink component to navigate to the nested route for the two options.
+
+Let's add the CSS classes we have just referenced in index.css:
+.admin-sections {
+  list-style: none;
+  margin: 0px 0px 20px 0px;
+  padding: 0;
+}
+
+.admin-sections li {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.admin-sections li a {
+  color: #222;
+  text-decoration: none;
+}
+
+.admin-link-active {
+  border-bottom: #6f6e6e solid 2px;
+}
+Moving back to AdminPage.tsx, let's add two Route components beneath the menu we have just added. These will handle the /admin/users and /admin/products paths we referenced in our menu:
+<div className="page-container">
+  <h1>Admin Panel</h1>
+  <ul className="admin-sections">
+    ...
+  </ul>
+  <Route path="/admin/users" component={AdminUsers} />
+  <Route path="/admin/products" component={AdminProducts} />
+</div>
+We have just referenced AdminUsers and AdminProducts components that don't exist yet. Let's implement the AdminProducts component first by entering the following beneath the AdminPage component in AdminPage.tsx:
+const AdminProducts: React.SFC = () => {
+  return <div>Some options to administer products</div>;
+};
+So, this component just renders a bit of text on the screen.
+
+Let's move on to the AdminUsers component now which is more complex. We'll start by defining an interface for a user along with some user data beneath the AdminProducts component in AdminPage.tsx:  
+interface IUser {
+  id: number;
+  name: string;
+  isAdmin: boolean;
+}
+const adminUsersData: IUser[] = [
+  { id: 1, name: "Fred", isAdmin: true },
+  { id: 2, name: "Bob", isAdmin: false },
+  { id: 3, name: "Jane", isAdmin: true }
+];
+So, we have 3 users in our example.
+
+Let's start to implement the AdminUsers component then in AdminPage.tsx:
+const AdminUsers: React.SFC = () => {
+  return (
+    <div>
+      <ul className="admin-sections">
+        {adminUsersData.map(user => (
+          <li>
+            <NavLink
+              to={`/admin/users/${user.id}`}
+              activeClassName="admin-link-active"
+            >
+              {user.name}
+            </NavLink>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+The component renders a link containing each user's name. The link is to a nested path which will eventually show details about the user.
+
+So, we need to define another route that will call a component to render details about a user. We can do this by using another Route component:
+<div>
+  <ul className="admin-sections">
+    ...
+  </ul>
+  <Route path="/admin/users/:id" component={AdminUser} />
+</div>
+The path we have just defined routes to an AdminUser component we haven't defined yet. So, let's make a start on this beneath the AdminUsers component:
+const AdminUser: React.SFC<RouteComponentProps<{ id: string }>> = props => {
+  return null;
+};
+We use RouteComponentProps to get the id from the URL path and make this available in the props.
+
+We can now use the id from the path to get the user from our adminUsersData array:
+const AdminUser: React.SFC<RouteComponentProps<{ id: string }>> = props => {
+  let user: IUser;
+  if (props.match.params.id) {
+    const id: number = parseInt(props.match.params.id, 10);
+    user = adminUsersData.filter(u => u.id === id)[0];
+  } else {
+    return null;
+  }
+  return null;
+};
+Now that we have the user object, we can render the information within it.
+const AdminUser: React.SFC<RouteComponentProps<{ id: string }>> = props => {
+  let user: IUser;
+  if (props.match.params.id) {
+    const id: number = parseInt(props.match.params.id, 10);
+    user = adminUsersData.filter(u => u.id === id)[0];
+  } else {
+    return null;
+  }
+  return (
+    <div>
+      <div>
+        <b>Id: </b>
+        <span>{user.id.toString()}</span>
+      </div>
+      <div>
+        <b>Is Admin: </b>
+        <span>{user.isAdmin.toString()}</span>
+      </div>
+    </div>
+  );
+};
+If we go to the running app, go to the Admin page and click on the Products menu item, it will look like below:
+
+
+If we click on the Users menu item, we'll see the 3 users that we can click on to get more information about a user. This will look like the first screenshot in this section.
+So, in order to implement nested routes, we create the necessary links using NavLink or Link components and route those links to the component to render the content using a Route component. We already knew 

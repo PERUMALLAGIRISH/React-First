@@ -1,0 +1,42 @@
+Using the NavLink component
+React Router providers another component for linking to pages, called NavLink. This is actually even more suitable for our requirements. The following steps explain how we can refactor our Header component to use NavLink:
+
+So, let's replace Link with NavLink in our Header component and make some improvements:
+import * as React from "react";
+import { NavLink } from "react-router-dom";
+
+import logo from "./logo.svg";
+
+const Header: React.SFC = () => {
+  return (
+    <header className="header">
+      <img src={logo} className="header-logo" alt="logo" />
+      <h1 className="header-title">React Shop</h1>
+      <nav>
+        <NavLink to="/products" className="header-
+         link">Products</NavLink>
+        <NavLink to="/admin" className="header-
+         link">Admin</NavLink>
+      </nav>
+    </header>
+  );
+};
+
+export default Header;
+   At this point, our app looks and behaves exactly the same.
+
+NavLink exposes an activeClassName attribute that we can use to style the active link. So, let's use this:
+<NavLink to="/products" className="header-link" activeClassName="header-link-active">
+  Products
+</NavLink>
+<NavLink to="/admin" className="header-link" activeClassName="header-link-active">
+  Admin
+</NavLink>
+Let's add the CSS for header-link-active into our index.css:
+.header-link-active {
+  border-bottom: #ebebeb solid 2px;
+}
+If we switch to the running app now, the active link will be underlined:
+
+
+So, NavLink is great for the main app navigation where we want to highlight the active link and Link is great for all the other links in our app. 

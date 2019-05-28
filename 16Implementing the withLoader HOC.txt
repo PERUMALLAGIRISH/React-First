@@ -1,0 +1,95 @@
+Implementing the withLoader HOC
+We're going to create a loader spinner component called withLoader that can be used with any component to indicate that the component is busy doing something:
+
+Let's start by creating a new file called withLoader.tsx with the following content:
+import * as React from "react";
+
+interface IProps {
+  loading: boolean;
+}
+
+const withLoader = <P extends object>(
+  Component: React.ComponentType<P>
+): React.SFC<P & IProps> => ({ loading, ...props }: IProps) =>
+  // TODO - return a loading spinner if loading is true otherwise return the component passed in 
+
+export default withLoader;
+There are a few things going on here, so let's break this down:
+
+withLoader is a function that that takes in a component of type P.
+withLoader calls a function component.
+The properties for the function component are defined as P & IProps, which is an intersection type.
+An intersection type combines multiple types into one. So X, and Y, and Z combine all the properties and methods of X, Y, and Z together into a new type.
+So, the properties for the SFC include all the properties from the component passed in along with a loading boolean property that we defined.
+The props are destructured into a loading variable and a props variable containing all the other properties using a rest parameter.
+So, the remaining work we have to do is return our loading spinner if loading is true, otherwise we just need to return the component passed in. We can do this using a ternary expression highlighted in the following code:
+const withLoader = <P extends object>(
+  Component: React.ComponentType<P>
+): React.SFC<P & IProps> => ({ loading, ...props }: IProps) =>
+  loading ? (
+    <div className="loader-overlay">
+      <div className="loader-circle-wrap">
+        <div className="loader-circle" />
+      </div>
+    </div>
+  ) : (
+    <Component {...props} />
+  );
+The component passed in is returned in the second ternary branch. We use the spread syntax to spread the properties in the props variable into the component.
+
+The loading spinner is returned in the first ternary branch.
+
+The loading spinner references some CSS classes, so let's add these into index.css:
+.loader-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: Black;
+  opacity: 0.3;
+  z-index: 10004;
+}
+.loader-circle-wrap {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 100px;
+  width: 100px;
+  margin: auto;
+}
+.loader-circle {
+  border: 4px solid #ffffff;
+  border-top: 4px solid #899091;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  animation: loader-circle-spin 0.7s linear infinite;
+}
+The loader-overlay class creates a black see-through overlay over the whole page. The loader-circle-wrap class creates a 100px by 100px square in the center of the overlay. The loader-circle class creates the spinning circle.
+
+Our withLoader HOC is now complete.
+
+For reference, a class-based version of withLoader is shown in the following code block:
+
+const withLoader = <P extends object>(Component: React.ComponentType<P>) =>
+  class WithLoader extends React.Component<P & IProps> {
+    public render() {
+      const { loading, ...props } = this.props as IProps;
+      return loading ? (
+        <div className="loader-overlay">
+          <div className="loader-circle-wrap">
+            <div className="loader-circle" />
+          </div>
+        </div>
+      ) : (
+        <Component {...props} />
+      );
+    }
+  };
+We are going to stick with the SFC version, though, because it doesn't contain any state or need access to any lifecycle methods. 
+
+In the next section, we'll consume our withLoader component in the product page in our shop app.
+

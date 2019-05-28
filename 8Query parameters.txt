@@ -1,0 +1,114 @@
+Query parameters
+A query parameter is part of the URL that allows additional parameters to be passed into a path. For example, "/products?search=redux" has a query parameter called search with a redux value.
+
+Let's implement this example and allow the users of the shop to search for a product:
+
+Let's start by adding a variable in the state in ProductsPage.tsx called search, which is going to hold the search criteria:
+interface IState {
+  products: IProduct[];
+  search: string;
+}
+Given that we need to access the URL, we need to use RouteComponentProps as the props type in ProductsPage. Let's first import this:
+import { RouteComponentProps } from "react-router-dom";
+ We can then use this as the props type:
+class ProductsPage extends React.Component<RouteComponentProps, IState> {
+We can initialize the search state to an empty string in constructor:
+public constructor(props: RouteComponentProps) {
+  super(props);
+  this.state = {
+    products: [],
+    search: ""
+  };
+}
+We then need to set the search state in componentDidMount to the search query parameter. React Router gives us access to all the query parameters in location.search within the props argument that it passes into the component. We then need to parse that string to get our search query string parameter. We can use the URLSearchParams JavaScript function to do this. We are going to use the static getDerivedStateFromProps life cycle method to do this, which is called when the component loads and when its props parameters change:
+public static getDerivedStateFromProps(
+  props: RouteComponentProps,
+  state: IState
+) {
+  const searchParams = new URLSearchParams(props.location.search);
+  const search = searchParams.get("search") || "";
+  return {
+    products: state.products,
+    search
+  };
+}
+Unfortunately, URLSearchParams hasn't been implemented yet in all browsers, so we can use a polyfill called url-search-params-polyfill. Let's install this:
+npm install url-search-params-polyfill
+Let's import this into ProductPages.tsx:
+import "url-search-params-polyfill";
+We then can use the search state in the render method by wrapping an if statement around the returned list item to only return something when the value of search is contained within the product name:
+<ul className="product-list">
+  {this.state.products.map(product => {
+    if (
+      !this.state.search ||
+      (this.state.search &&
+        product.name
+          .toLowerCase()
+          .indexOf(this.state.search.toLowerCase()) > -1)
+    ) {
+      return (
+        <li key={product.id} className="product-list-item">
+          <Link to={`/products/${product.id}`}>{product.name}
+           </Link>
+        </li>
+      );
+    } else {
+      return null;
+    }
+  })}
+</ul>
+If we enter "/products?search=redux" as the path in our running app, we will see our products list containing only React Redux:
+
+
+We are going to finish implementing this feature by adding a search input in our app header that sets the search query parameter. Let's start this by creating some state in the Header component for the search value in Header.tsx:
+ const [search, setSearch] = React.useState("");
+We are also going to need to access the query string via React Router and URLSearchParams, so let's import RouteComponentProps, withRouter, and the URLSearchParams polyfill:
+import { NavLink, RouteComponentProps, withRouter} from "react-router-dom";
+import "url-search-params-polyfill";
+Let's add a props parameter to our Header component:
+const Header: React.SFC<RouteComponentProps> = props => { ... }
+We can now get the search value from the path query string and set the search state to this when the component first renders:
+const [search, setSearch] = React.useState("");
+React.useEffect(() => {
+  const searchParams = new URLSearchParams(props.location.search);
+  setSearch(searchParams.get("search") || "");
+}, []);
+Let's now add a search input in the render method for the user to enter their search:
+public render() {
+  return (
+    <header className="header">
+      <div className="search-container">
+        <input
+          type="search"
+          placeholder="search"
+          value={search}
+          onChange={handleSearchChange}
+          onKeyDown={handleSearchKeydown}
+        />
+      </div>
+      <img src={logo} className="header-logo" alt="logo" />
+      <h1 className="header-title">React Shop</h1>
+      <nav>
+        ...
+      </nav>
+    </header>
+  );
+}
+Let's add the search-container CSS class that we just referenced to index.css:
+.search-container {
+  text-align: right;
+  margin-bottom: -25px;
+}
+Back in Header.tsx, let's add the handleSearchChange method, which is referenced in the render method and will keep our search state up to date with the value being entered:
+const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  setSearch(e.currentTarget.value);
+};
+We can now implement the handleSearchKeydown method, which is referenced in the render method. This needs to add the search state value to the path query string when the Enter key is pressed. We can leverage the push method in the history prop that RouteComponentProps gives us:
+const handleSearchKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  if (e.key === "Enter") {
+    props.history.push(`/products?search=${search}`);
+  }
+};
+We need to export the Header component wrapped with the withRouter higher order component in order for the reference to this.props.history to work. So, let's do this and adjust our export expression:
+export default withRouter(Header);
+Let's give this a try in the running app. If we enter redux in the search input and press the Enter key, the app should navigate to the Products page and filter the products to React Redux:

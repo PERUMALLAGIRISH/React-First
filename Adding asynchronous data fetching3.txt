@@ -1,0 +1,53 @@
+Adding asynchronous data fetching
+At the moment, the data fetching in our shop is instantaneous because all the data is local. So, before working on the withLoader component, let's refactor the data fetching functions to include a delay and be asynchronous as well. This will better simulate a real data fetching function that gets the data using a web API:
+
+In ProductData.ts, let's add the following arrow function that can be used to get a product:
+export const getProduct = async (id: number): Promise<IProduct | null> => {
+  await wait(1000);
+  const foundProducts = products.filter(customer => customer.id === id);
+  return foundProducts.length === 0 ? null : foundProducts[0];
+};
+The function takes in the product ID and uses the filter function in the products array to find the product and then returns it.
+
+The function is prefixed with the async keyword because it is asynchronous.
+
+The function also calls a function called wait asynchronously with the await keyword in front of it. So, let's create the wait function:
+const wait = (ms: number): Promise<void> => {
+  return new Promise(resolve => setTimeout(resolve, ms));
+};
+This function uses the standard JavaScript setTimeout function to wait for the number of milliseconds we specify in the function parameter. The function returns a Promise that is resolved when setTimeout completes.
+
+Don't worry if the async and await keywords along with promises don't make much sense at the moment. We'll look at these in detail later in the book.
+So, we have a function that now fetches a product asynchronously taking at least 1 second. Let's plug this into our product page. The ProductPage component is a container component responsible for fetching data, so let's plug this in here.
+
+First, let's import the getProduct function into ProductPage:
+import { getProduct, IProduct } from "./ProductsData";
+Let's add a property called loading to the state of ProductPage to indicate whether the data is loading or not:
+interface IState {
+  product?: IProduct;
+  added: boolean;
+  loading: boolean;
+}
+Let's also initialize this state to true in the constructor:
+public constructor(props: Props) {
+  super(props);
+  this.state = {
+    added: false,
+    loading: true
+  };
+}
+Now, we can use the getProduct function when the ProductPage component loads:
+public async componentDidMount() {
+  if (this.props.match.params.id) {
+    const id: number = parseInt(this.props.match.params.id, 10);
+    const product = await getProduct(id);
+    if (product !== null) {
+      this.setState({ product, loading: false });
+    }
+  }
+}
+We call getProduct asynchronously using the await keyword. In order to do this, we need to mark the componentDidMount lifecycle method as asynchronous with the async keyword. After we've got the product, we set it in the state and reset the loading flag to false.
+
+If our shop isn't running, let's run this:
+npm start
+If we go to the product page, we see that it takes roughly 1 second for the product to load now. You may notice Product not found! being displayed whilst the product loads. This is because the product is not set on the initial render. We'll ignore this for the time being because our withLoader HOC will resolve this issue.

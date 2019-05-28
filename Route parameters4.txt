@@ -1,0 +1,118 @@
+Route parameters
+A Route parameter is a variable part of the path that can used in the destination component to conditionally render something.
+
+We need to add another page to our shop to show the description and price of each product, along with an option to add it to the basket. We want to be able to navigate to this page using the "/products/{id}" path, where id is the ID of the product. For example, the path to React Redux would be "products/2". So, the id part of the path is a route parameter. We can do all this by following these steps:
+
+Let's add this route to Routes.tsx in between the two existing routes. The id part of the route is going to be a route parameter, which we define with a colon in front of it:
+<Route path="/products" component={ProductsPage} />
+<Route path="/products/:id" component={ProductPage} />
+<Route path="/admin" component={AdminPage} />
+Of course, the ProductPage component doesn't exist yet, so, let's create that by first creating a new file called ProductPage.tsx with the following imports:
+import * as React from "react";
+import { RouteComponentProps } from "react-router-dom";
+import { IProduct, products } from "./ProductsData";
+The key part here is that we are going to use the RouteComponentProps type to access the id parameter in the path. Let's define the props type alias for our ProductPage component using the RouteComponentProps generic type and passing in a type with an id property:
+type Props = RouteComponentProps<{id: string}>;
+Don't worry if you don't understand the angle brackets in the type expression. This denotes a generic type, which we will explore in Chapter 5, Advanced Types.
+Ideally, we'd have specified the id property as a number to match the type in the product data. However, RouteComponentProps only allows us to have Route parameters of type string or undefined.
+
+The ProductPage component is going to have state to hold the product that is being rendered and whether it has been added to the basket, so let's define an interface for our state:
+interface IState {
+  product?: IProduct;
+  added: boolean;
+}
+The product is initially going to be undefined, which is why it is defined as optional. Let's create our ProductPage class and initialize the state so that the product is not in the basket:
+class ProductPage extends React.Component<Props, IState> {
+  public constructor(props: Props) {
+    super(props);
+    this.state = {
+      added: false
+    };
+  }
+}
+
+export default ProductPage;
+When the component is loaded into the DOM, we need to find our product from the product data with the id property from the Route parameter. RouteComponentProps gives us a match object, containing a params object, containing our id route parameter. So, let's implement this:
+public componentDidMount() {
+  if (this.props.match.params.id) {
+    const id: number = parseInt(this.props.match.params.id, 10);
+    const product = products.filter(p => p.id === id)[0];
+
+    this.setState({ product });
+  }
+}
+Remember that the id route parameter is a string, which is why we cast it to a number using parseInt before comparing it with the product data in the filter array. 
+
+Now that we have our product in our component state, let's move on to the render function:
+public render() {
+  const product = this.state.product;
+  return (
+    <div className="page-container">
+      {product ? (
+        <React.Fragment>
+          <h1>{product.name}</h1>
+          <p>{product.description}</p>
+          <p className="product-price">
+            {new Intl.NumberFormat("en-US", {
+              currency: "USD",
+              style: "currency"
+            }).format(product.price)}
+          </p>
+          {!this.state.added && (
+            <button onClick={this.handleAddClick}>Add to 
+              basket</button>
+          )}
+        </React.Fragment>
+      ) : (
+        <p>Product not found!</p>
+      )}
+    </div>
+  );
+}
+   There are a few interesting bits in this JSX:
+
+On the first line inside the function, we set a product variable to the product state to save a few keystrokes because we reference the product a lot in the JSX.
+The ternary inside div renders the product if there is one. Otherwise, it informs the user that the product cannot be found.
+We use React.Fragment in the true part of the ternary because each part of a ternary can only have a single parent and React.Fragment is a mechanism for achieving this, without rendering something like a div tag that is not really needed.
+We use Intl.NumberFormat to format the product price as currency with a currency symbol.
+We are also calling the handleAddClick method when the Add to basket button is clicked. We haven't implemented this yet, so, let's do that now and set the added state to true:
+private handleAddClick = () => {
+  this.setState({ added: true });
+};
+Now that we've implemented the ProductPage component, let's go back to Routes.tsx and import it:
+import ProductPage from "./ProductPage";
+Let's go to our running app and type in "/products/2" as the path:
+
+
+Not quite what we want! Both ProductsPage and ProductPage have rendered because "/products/2" matches both "/products" and "/products/:id".
+To resolve this, we can tell the "/products" route to only render when there is an exact match:
+<Route exact={true} path="/products" component={ProductsPage} />
+After we make this change and save Routes.tsx, our product page looks much better:
+
+
+We aren't going to make our users type in the specific paths to visit the products! So, we are going to change ProductsPage to link to ProductPage for each product using the Link component. First, let's import Link into ProductsPage from React Router:
+import { Link } from "react-router-dom";
+Now, instead of rendering the product name in each list item, we are going to render a Link component that goes to our product page:
+public render() {
+  return (
+    <div className="page-container">
+      <p>
+        Welcome to React Shop where you can get all your tools 
+         for ReactJS!
+      </p>
+      <ul className="product-list">
+        {this.state.products.map(product => (
+          <li key={product.id} className="product-list-item">
+            <Link to={`/products/${product.id}`}>{product.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+Before we take a look a the running app, let's add the following CSS class in our index.css:
+.product-list-item a {
+  text-decoration: none;
+}
+Now, if we go to the products list in our app and click on a list item, it takes us to the relevant product page.
