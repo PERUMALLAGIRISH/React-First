@@ -21,3 +21,5 @@ Api-Call-App.js
 * Api Call Using Fetch mathod & data display using Map Method
 Api-call-axiosMethod.js
 * Api Call Using axios mathod & data display using Map Method
+object_comp-to-comp
+*pass an object from one component to another
