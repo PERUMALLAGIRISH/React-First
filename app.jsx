@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 
-class App extends React.Component {
 
+//create calss component call state and default prop in render method
+//call body component
+//set prop value to Header and footer componet 
+
+class App extends React.Component {
   constructor(props){
     super(props);
     this.state = {
@@ -24,12 +28,15 @@ class App extends React.Component {
   }
 }
 
+//app Component Default value creting
 App.defaultProps = {
     catName: "Sandy",
     eyeColor: "deepblue",
     age: "120"
 }
 
+
+//Create Header Component Call props value in App component
 class Header extends React.Component{
  constructor(props){
     super(props);
@@ -43,14 +50,13 @@ class Header extends React.Component{
       <div>
          <h1>This is {this.state.data} -2</h1>
          <p>{this.props.headerProp}</p>
-         <p>{this.props.eyeColor}</p>
       </div>
   )
  }
 }
 
 
-
+//Create Body Component with Form binding and event binding
 class Body extends React.Component{
  constructor(props){
     super(props);
@@ -108,10 +114,12 @@ class Body extends React.Component{
  }
 }
  
+//Creating Body Component Default value 
  Body.defaultProps = {
     data: "Body"
 }
  
+//Creating Footer Component and Event Binding
  class Footer extends React.Component{
  constructor(props){
     super(props);
