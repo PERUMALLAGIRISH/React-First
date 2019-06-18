@@ -18,6 +18,11 @@ var a = fruits.indexOf("Apple");
 o/p
 2
 
+******************************* setInterval Concept *******************************
+setInterval(function(){
+   console.log("Hello Jon")
+}, 1000);
+
 
 https://www.valentinog.com/blog/babel/
 
