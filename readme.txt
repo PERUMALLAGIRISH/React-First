@@ -8,6 +8,16 @@ https://www.valentinog.com/blog/babel/
 
 Office Practice
 
-FirstDay
+************************************* FirstDay *************************************
 app.js
-main.js
+* Calling Components calling satate values with in the component & how to pass data two components using props and Event Binding And Form Binding.
+main.js  
+* create Main File RenderDom method include
+
+
+
+************************************* SecondDay *************************************
+Api-Call-App.js
+* Api Call Using Fetch mathod & data display using Map Method
+Api-call-axiosMethod.js
+* Api Call Using axios mathod & data display using Map Method
