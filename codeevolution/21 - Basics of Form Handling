@@ -1,0 +1,70 @@
+import React, { Component } from "react";
+// import ChildComponent from "./ChildComponent";
+
+class Form extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      UserName: "",
+      Message: "",
+      Topic: ""
+    };
+    this.handleUserNameChange = this.handleUserNameChange.bind(this);
+  }
+
+  handleUserNameChange(e) {
+    this.setState({
+      UserName: e.target.value
+    });
+  }
+
+  handleMessageChange = e => {
+    this.setState({
+      Message: e.target.value
+    });
+  };
+
+  handleTopicChange = e => {
+    this.setState({
+      Topic: e.target.value
+    });
+  };
+
+  handleSubmit = event => {
+    alert(
+      `Name is ${this.state.UserName} and Messege ${
+        this.state.Message
+      } and Topic is ${this.state.Topic}`
+    );
+  };
+
+  render() {
+    return (
+      <div>
+        <form onSubmit="{this.handleSubmit}">
+          <lael>UserName</lael>
+          <input
+            type="text"
+            value={this.state.UserName}
+            onChange={this.handleUserNameChange}
+          />
+          <lael>Message</lael>
+          <input
+            type="text"
+            value={this.state.Message}
+            onChange={this.handleMessageChange}
+          />
+          <lael>UserName</lael>
+          <select value={this.state.Topic} onChange={this.handleTopicChange}>
+            <option value="angular">Angular</option>
+            <option value="Reactjs">Reactjs</option>
+            <option value="vujs">VUJs</option>
+          </select>
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    );
+  }
+}
+
+export default Form;
