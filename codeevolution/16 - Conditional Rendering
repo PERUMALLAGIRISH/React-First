@@ -1,0 +1,38 @@
+import React, { Component } from "react";
+// import ChildComponent from "./ChildComponent";
+
+class UserGreeting extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLogin: true
+    };
+  }
+
+  render() {
+    // if(this.state.isLogin){
+    //   return (
+    //     <div>
+    //       <h3>Welcome Jon</h3>
+    //     </div>
+    //   );
+    // }else{
+    //   return (
+    //     <div>
+    //       <h3>Welcome Great</h3>
+    //     </div>
+    //   );
+    // }
+
+    //methid -2
+    let message;
+    if (this.state.isLogin) {
+      message = <h3>Welcome Jon</h3>;
+    } else {
+      message = <h3>Welcome Great</h3>;
+    }
+    return <div>{message}</div>;
+  }
+}
+
+export default UserGreeting;
