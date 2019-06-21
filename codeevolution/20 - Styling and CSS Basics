@@ -1,0 +1,34 @@
+index.js
+import React from "react";
+import ReactDOM from "react-dom";
+import StyleSheet from "./ChildComponent";
+import "./styles.css";
+
+function App() {
+  const header ={
+    color: "red"
+  }
+  return (
+    <div className="App">
+      <h1 style={header}>AppComponent</h1>
+      <StyleSheet primary={false} />
+    </div>
+  );
+}
+
+ReactDOM.render(<App />, document.getElementById("root"));
+
+
+ChildComponent.js
+import React from "react";
+
+function StyleSheet(props) {
+  let className = props.primary ? "primary" : "";
+  return (
+    <div>
+      <h1 className={className}>StyleSheet</h1>
+    </div>
+  );
+}
+
+export default StyleSheet;
