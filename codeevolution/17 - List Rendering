@@ -1,0 +1,24 @@
+import React from "react";
+
+function NameList() {
+  const names = ['Jon','Doe','Mickle'];
+  const nameList = names.map(name => <h3>{name}</h3>)
+  return (
+    <div>
+      {/* method - 1
+       <h3>{names[0]}</h3> */
+      }
+
+      { /*method - 2
+      {
+        names.map(name => <h3>{name}</h3>)
+      } 
+      */}
+
+       method - 3
+      {nameList}
+    </div>
+  );
+}
+
+export default NameList;
