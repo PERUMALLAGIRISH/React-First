@@ -1,0 +1,47 @@
+ParentComponent.ts
+
+import React, { Component } from "react";
+import ChildComponent from "./ChildComponent";
+
+class ParentComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      parentName: "Parent"
+    };
+    this.greetParent = this.greetParent.bind(this);
+  }
+
+  greetParent(childName) {
+    alert(`Hello  ${this.state.parentName} Component ${childName}`);
+  }
+
+  render() {
+    return (
+      <div>
+        <h3>ParentComponent</h3>
+        <ChildComponent greetHeader={this.greetParent} />
+      </div>
+    );
+  }
+}
+
+export default ParentComponent;
+
+
+
+ChildComponent.ts
+
+import React from "react";
+
+function ChildComponent(props) {
+  return (
+    <div>
+      <h3>ChildComponent</h3>
+      {/* <button onClick={props.greetHeader}>Submit</button> */}
+      <button onClick={() => props.greetHeader("child")}>Submit</button>
+    </div>
+  );
+}
+
+export default ChildComponent;
