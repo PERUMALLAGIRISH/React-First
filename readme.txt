@@ -30,3 +30,41 @@ How to pass an object from one component to another
 How to pass a function from parent component to child component using the object.
 http://www.habilelabs.io/3-simple-steps-create-react-js-components/
 
+
+
+******************************* Class Component *******************************
+import React, { Component } from "react";
+
+class ClassCounter extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    return (
+    <div>
+      <h1>Hello</h1>
+    </div>
+    );
+  }
+}
+
+export default ClassCounter;
+
+
+
+******************************* Functional Component *******************************
+import React from "react";
+
+
+function Test() {
+    return (
+    <div>
+      <h1>Hello</h1>
+    </div>
+    );
+  }
+
+
+export default Test;
