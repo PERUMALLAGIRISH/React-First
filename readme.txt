@@ -26,6 +26,11 @@ var a = fruits.indexOf("Apple");
 o/p
 2
 
+******************************* Map Concept *******************************
+{this.state.people.map((person, index) => (
+        <p>Hello, {person.name} from {person.country}!</p>
+    ))}
+
 ******************************* setInterval Concept *******************************
 setInterval(function(){
    console.log("Hello Jon")
