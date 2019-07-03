@@ -1,0 +1,134 @@
+JS:
+   OOPs
+	programming paradigm where focus is on objects .
+
+   Many f/ws are designed keeping objects in mind
+	Encapsulation = bind the properties + methods
+	Abstraction = hide the complexities
+	Inheritance = mechnism to eleminate redundant code
+		text box, select , checkbox
+
+		var HTMLElement = {
+			name,
+		        hidden,
+		        innerHTML,
+
+
+			click()
+			focus()
+		}
+	polymorphism = 
+
+		multiple forms
+
+		render() method will change / behave differntly
+		 refactor the ugly
+
+   Procedural 
+	Functions, operate on the data	
+	complex code, interdependency among the functions would increase
+	enhancement	
+
+	Group : related vars(properties) and functions(methods) together = object
+
+
+	Circle.call({},1);
+
+		and
+
+	var a = new Circle(1);
+
+
+	Value  Vs Reference Type:
+
+	Value =  primitives
+
+	Reference = objects, functions
+		
+
+
+	Objects are dynamic in JS
+	add and delete properties.
+
+
+	Object.defineProperty();
+
+	
+	Assignment: StopWatch
+		start()
+		stop()
+		duration()
+
+	cannot start and stop twice.
+	reset();
+
+
+ECMAScript 6:
+	
+JS dialect that follows ECMAScript
+
+ES5
+	node envt => es6
+	babel 
+
+let 
+	block scope
+var
+const = value does not change
+
+
+	Hoisting = move all the declaration on top of the current scope
+		does not work with let and const
+
+	scope: global scope = JS envt
+		var and let behave same
+	local scope: loop, function
+
+Arrow functions
+scope
+default parameters
+rest operators	= will convert the numbers into an array
+spread operators = split the array
+
+destructuring arrays
+destructuring objects
+
+classes , constructor, super, extends, overriding
+
+Modules = functional units 
+	structuring
+	enhancement
+	updation
+
+	Typescript(.ts) = superset of JS + OOPs + es6
+		export 
+		import
+
+Modules:
+	exports and require
+
+Set
+
+Array.filter()
+
+Array.find()		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
