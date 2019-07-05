@@ -1,0 +1,66 @@
+Day 2:
+
+	Rendering the lists....
+
+	Conditional rendering....
+
+	Cannot update the state directly. Make react update the state.
+
+	Arrow fucntions for event handling.
+
+	React application would comprise on a list of components.
+
+	props = Every React Component, JS object and pass data to other components
+
+	props = READOnly 
+
+	state = Data that is local / private to the component
+	other components cannot access the state.
+
+	Children <Counter>   </Counter>
+
+	Raising and Handling events
+
+
+Day 3:
+	Event Handling contd...
+
+	Removed the local state => Counter
+	Maintaining single state within the parent
+
+	
+	Multiple Components in Sync
+
+	Lifting the state Up
+
+	Component Life Cycle:
+
+	1. Mount
+		instance of the component is created and inserted into the DOM
+
+		constructor
+		render .  React gets its vitrual DOM and renders with Actual DOM
+		componentDidMount
+
+	When the component is rendered, its children are also rendered.	
+
+	2. Update
+		wnen the components state or the props are changing
+		
+		render
+		componentDidUpdate
+
+	3. Unmount
+		component is removed from the DOM
+
+		componentWillUnMount
+	
+
+	
+
+
+
+
+
+
+
