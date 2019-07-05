@@ -1,0 +1,178 @@
+Pre - requisite:
+	HTML / CSS /Bootstrap
+	JS
+	ES6
+
+Installation:
+	Node JS
+		npm : node pacakage manager = hit the npm repository
+			download the reqd packages [node-modules]
+
+		commnad line tool => create / scaffold project structures
+
+	VSCode Editor
+	Chrome
+	create-react-app => cmd line tool to create React Apps
+
+		one time activity:
+
+		a) npm i -g create-react-app
+			
+			open internet connection
+
+		b) create-react-app my-app
+
+		npx create-react-app my-app
+
+Day 1: React JS
+
+	Is a JS library to build fast and interactive UIs
+	FB
+
+	Heart of React applications = component
+
+		piece of UIs constructed in isolation and then composed to make complex structures
+
+			App
+
+		C1	C2	C3		Cn 
+		
+		
+	Tree structure	
+
+
+	Component => JS class => state and behaviour
+
+	class Tweet {
+		state = {
+			count=0,
+		}; // data to be displayed
+
+		render() {
+			// describes what the UI looks like
+		}
+	}
+
+	a) o.p of render method is a React element = [JS object]
+	b) React maintaines a lightweight representation of DOM in memory
+		Virtual DOM
+	c) Do not work with the real DOM
+
+
+	d) 
+		a) When the state changes , render will generate a new React Element
+		b) React would compare this new virtual DOM structure to the previous virtual DOM 
+		c) React then updates the part of the real DOM
+		d) Real DOM and Virtual DOM in sync
+
+	e) React => reactive to state changes and then updates the real DOM
+
+
+	Project Struture:
+		
+	1) node_modules > has all the dependencies
+	2) Development server > npm start // 3000
+	3) Babel > JS compiler and bunch of other tools
+	4) src > project source code
+	5) public > public assets of the application and index page
+
+	   npm start
+		build + bundles
+
+
+
+	6) index.js > entry point of the application, Rendering the Root Component > App
+
+
+	Installing bootstrap:
+	
+	npm i boostrap
+
+	import in index.js
+
+	code: JSX - Javascript + xml
+
+		 <div>
+	        <h1>Hello with App</h1>
+        	<button className="btn btn-primary btn-sm m-2">Increment</button>
+	        </div>	
+
+	
+
+	Rendering classes dynamically -> Bootstrap
+
+Day 2:
+
+	Rendering the lists....
+
+	Conditional rendering....
+
+	Cannot update the state directly. Make react update the state.
+
+	Arrow fucntions for event handling.
+
+	React application would comprise on a list of components.
+
+	props = Every React Component, JS object and pass data to other components
+
+	props = READOnly 
+
+	state = Data that is local / private to the component
+	other components cannot access the state.
+
+	Children <Counter>   </Counter>
+
+	Raising and Handling events
+
+
+Day 3:
+	Event Handling contd...
+
+	Removed the local state => Counter
+	Maintaining single state within the parent
+
+	
+	Multiple Components in Sync
+
+	Lifting the state Up
+
+	Component Life Cycle:
+
+	1. Mount
+		instance of the component is created and inserted into the DOM
+
+		constructor
+		render .  React gets its vitrual DOM and renders with Actual DOM
+		componentDidMount
+
+	When the component is rendered, its children are also rendered.	
+
+	2. Update
+		wnen the components state or the props are changing
+		
+		render
+		componentDidUpdate
+
+	3. Unmount
+		component is removed from the DOM
+
+		componentWillUnMount
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
