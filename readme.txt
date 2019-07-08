@@ -6,6 +6,10 @@ tutorial
 https://www.youtube.com/user/noobtoprofessional/playlists
 
 
+******************************* curd ******* in react Add, Edit and Delete API Using React Axios ************************
+https://www.js-tutorials.com/react-js/how-to-create-listing-add-edit-and-delete-api-using-react-axios/
+
+
 Tutorial: How to set up React, webpack, and Babel 7 from scratch (2019)
 
 
