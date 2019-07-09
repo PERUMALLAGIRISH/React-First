@@ -1,0 +1,24 @@
+E-Commerce Case study:
+    1) create-react-app e-shopping
+    2) npm i bootstrap
+    3) npm i json-server
+        mock server for REST Api calls
+        public > db.json
+               > products > all product images    
+        a) db.json
+            Array of all the products
+        b) Need to make a Rest API call to the json-server
+        c) Need to start json-server at port : 8080
+        package.json > 
+            scripts : {
+                "server": "json-server public/db.json --port 8000"    
+            }
+       4) Lifting up the state
+        App: All the state is here
+        state: { products:[] }
+            Products
+            Basket
+            Filter
+            
+    5) App component mounts then , load the data from db.json file (REST API)
+        and update the state
