@@ -1,0 +1,6 @@
+first install
+create application
+npm i redux
+index.js
+reduces/reduceres.js
+home.js
